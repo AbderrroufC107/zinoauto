@@ -22,9 +22,27 @@ if (!$car) {
     exit('<div class="p-4 text-danger">السيارة غير موجودة</div>');
 }
 
-$imgRows = $db->prepare('SELECT image FROM car_images WHERE car_id = ? ORDER BY id DESC');
-$imgRows->execute([$id]);
-$extraImages = $imgRows->fetchAll(PDO::FETCH_ASSOC);
+// Ensure extra images table exists to avoid errors on fresh deployments
+try {
+    $db->exec("CREATE TABLE IF NOT EXISTS car_images (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      car_id INTEGER NOT NULL,
+      image TEXT NOT NULL,
+      created_at TEXT,
+      FOREIGN KEY(car_id) REFERENCES cars(id) ON DELETE CASCADE
+    )");
+} catch (Throwable $e) {
+    // ignore; fallback to empty list if creation fails
+}
+
+$extraImages = [];
+try {
+    $imgRows = $db->prepare('SELECT image FROM car_images WHERE car_id = ? ORDER BY id DESC');
+    $imgRows->execute([$id]);
+    $extraImages = $imgRows->fetchAll(PDO::FETCH_ASSOC) ?: [];
+} catch (Throwable $e) {
+    $extraImages = [];
+}
 
 $settings = $db->query('SELECT company_phone, company_email, company_address FROM settings WHERE id = 1')->fetch(PDO::FETCH_ASSOC) ?: [];
 
