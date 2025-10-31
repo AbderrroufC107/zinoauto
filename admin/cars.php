@@ -383,7 +383,7 @@ require __DIR__ . '/../includes/header.php';
               <?php endif; ?>
             </div>
             <div class="d-flex flex-column gap-2">
-              <a class="btn btn-sm btn-outline-primary" href="?edit=<?= (int)$c['id'] ?>"><?= $text['list_edit'] ?></a>
+              <a class="btn btn-sm btn-outline-primary" href="cars_edit.php?id=<?= (int)$c['id'] ?>"><?= $text['list_edit'] ?></a>
               <a class="btn btn-sm btn-danger" href="?delete=<?= (int)$c['id'] ?>" onclick="return confirm('<?= $text['list_delete_confirm'] ?>')"><?= $text['list_delete'] ?></a>
             </div>
           </li>
