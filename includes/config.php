@@ -27,7 +27,19 @@ define('DB_FILE', DATA_DIR . '/app.db');
 define('UPLOAD_DIR', __DIR__ . '/../uploads');
 
 // === اكتشاف BASE_URL تلقائيًا (يدعم localhost ونطاقات حقيقية) ===
-$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$__isHttps = false;
+try {
+    $v = strtolower((string)($_SERVER['HTTPS'] ?? ''));
+    if ($v === 'on' || $v === '1') $__isHttps = true;
+    $xfp = strtolower((string)($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''));
+    if ($xfp !== '' && strpos($xfp, 'https') !== false) $__isHttps = true;
+    $xfs = strtolower((string)($_SERVER['HTTP_X_FORWARDED_SSL'] ?? ''));
+    if ($xfs === 'on') $__isHttps = true;
+    $sch = strtolower((string)($_SERVER['REQUEST_SCHEME'] ?? ''));
+    if ($sch === 'https') $__isHttps = true;
+    if (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443) $__isHttps = true;
+} catch (Throwable $e) { }
+$protocol = $__isHttps ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'])) : '';
 $appRootFs = str_replace('\\', '/', realpath(__DIR__ . '/..'));
