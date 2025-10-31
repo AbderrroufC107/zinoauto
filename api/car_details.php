@@ -50,7 +50,7 @@ $mainImg = (!empty($car['image']) && file_exists(__DIR__ . '/../uploads/' . $car
     <div class="col-md-5">
       <div class="border rounded p-2 bg-light" style="min-height:200px; display:flex; align-items:center; justify-content:center;">
         <?php if ($mainImg): ?>
-          <img src="<?= htmlspecialchars($mainImg, ENT_QUOTES, 'UTF-8') ?>" alt="car" class="img-fluid" style="max-height:260px; object-fit:contain;">
+          <img src="<?= htmlspecialchars($mainImg, ENT_QUOTES, 'UTF-8') ?>" alt="car" class="img-fluid" style="max-height:260px; object-fit:contain; cursor: zoom-in;" data-lightbox>
         <?php else: ?>
           <div class="text-muted">بدون صورة</div>
         <?php endif; ?>
@@ -58,7 +58,7 @@ $mainImg = (!empty($car['image']) && file_exists(__DIR__ . '/../uploads/' . $car
       <?php if (!empty($extraImages)): ?>
         <div class="d-flex flex-wrap gap-2 mt-2">
           <?php foreach ($extraImages as $ex): $f = (string)($ex['image'] ?? ''); if ($f && file_exists(__DIR__ . '/../uploads/' . $f)): ?>
-            <img src="<?= BASE_URL ?>/uploads/<?= urlencode($f) ?>" style="height:56px; width:56px; object-fit:cover; border-radius:4px; border:1px solid #ddd;">
+            <img src="<?= BASE_URL ?>/uploads/<?= urlencode($f) ?>" style="height:56px; width:56px; object-fit:cover; border-radius:4px; border:1px solid #ddd; cursor: zoom-in;" data-lightbox>
           <?php endif; endforeach; ?>
         </div>
       <?php endif; ?>

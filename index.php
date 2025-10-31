@@ -122,6 +122,8 @@ $is_admin = !empty($_SESSION['admin_id']);
                       <img src="<?= BASE_URL ?>/uploads/<?= urlencode($car['image']) ?>?v=<?= time() ?>"
                            alt="<?= htmlspecialchars($car['name']) ?>"
                            class="w-100 h-100 object-fit-contain"
+                           data-lightbox
+                           style="cursor: zoom-in;"
                            loading="lazy">
                     <?php else: ?>
                       <div class="d-flex align-items-center justify-content-center h-100 text-muted">
